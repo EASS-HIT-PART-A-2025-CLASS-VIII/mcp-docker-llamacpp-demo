@@ -44,6 +44,29 @@ That’s it. Change the names or bump `--per-person` whenever you want.
 
 ---
 
+## How everything connects (picture!)
+
+```mermaid
+flowchart LR
+    User[[You in a terminal]] -->|run scripts/run_analyzer.sh| Client[Python analyzer\n(script.py + uv)]
+    subgraph Docker Containers
+      LLM[llama.cpp server\n: port 1234]:::box -->|summaries back| Client
+      Gateway[MCP gateway\n: port 8080]:::box --> Client
+      Gateway --> Tools
+      Tools[Built-in tools\nDuckDuckGo · Playwright · YouTube Transcript]:::box
+    end
+
+    classDef box fill:#e6f3ff,stroke:#0077cc,color:#111,rx:6,ry:6;
+```
+
+- The analyzer is just a Python script you run locally; it talks to two Docker containers over simple HTTP requests (think “send text → get text back”).
+- Container #1 is the llama.cpp server (your local LLM). Container #2 is Docker’s MCP gateway, which bundles search/browsing/transcript tools.
+- When the script runs, it asks the tools for YouTube transcripts, then hands that text to the local LLM for a summary, and finally prints a friendly table.
+
+No fancy networking knowledge needed: every arrow above is “talk over localhost with text”.
+
+---
+
 ## How the repo is organized
 
 ```
