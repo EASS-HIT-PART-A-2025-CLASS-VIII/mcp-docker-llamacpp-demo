@@ -48,12 +48,12 @@ That’s it. Change the names or bump `--per-person` whenever you want.
 
 ```mermaid
 flowchart LR
-    User[[You in a terminal]] -->|run scripts/run_analyzer.sh| Client[Python analyzer<br/>(script.py + uv)]
-    subgraph "Docker Containers"
-      LLM[llama.cpp server<br/>port 1234]:::box -->|summaries back| Client
-      Gateway[MCP gateway<br/>port 8080]:::box --> Client
+    User[[You in a terminal]] -->|run scripts/run_analyzer.sh| Client["Python analyzer (script.py + uv)"]
+    subgraph DockerContainers
+      LLM["llama.cpp server on port 1234"]:::box -->|summaries back| Client
+      Gateway["MCP gateway on port 8080"]:::box --> Client
       Gateway --> Tools
-      Tools[DuckDuckGo + Playwright + YouTube Transcript]:::box
+      Tools["DuckDuckGo + Playwright + YouTube Transcript"]:::box
     end
 
     classDef box fill:#e6f3ff,stroke:#0077cc,color:#111,rx:6,ry:6;
