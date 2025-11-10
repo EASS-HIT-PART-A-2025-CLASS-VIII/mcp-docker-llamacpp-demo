@@ -17,6 +17,7 @@ If you can follow a recipe, you can run this project.
 1. **Install the tools you need once**
    - [Docker Desktop 4.29+](https://docs.docker.com/desktop/) with the MCP extension: `docker extension install docker/mcp`
    - [uv](https://docs.astral.sh/uv/getting-started/installation/) (or Python 3.12+ if you insist)
+   - Make sure Docker Desktop is running before continuing; the helper scripts now fail fast if the daemon is stopped.
 2. **Start the local LLM (one terminal tab)**
    ```bash
    scripts/start_llm_server.sh
@@ -81,6 +82,8 @@ No fancy networking knowledge needed: every arrow above is “talk over localhos
 └── README.md                # What you’re reading
 ```
 
+> Tip: `scripts/start_llm_server.sh` automatically runs `docker pull` for the llama.cpp image so you're always current. Set `PULL_IMAGE=false` if you need to skip that (e.g., offline work).
+
 ---
 
 ## Important Flags and Environment Variables
@@ -104,6 +107,7 @@ Both helper scripts accept standard environment overrides (e.g., `PORT`, `MODEL_
 | ------- | ---------- |
 | `✗ LLM connection failed` | Make sure `scripts/start_llm_server.sh` is still running; check Docker Desktop logs. |
 | `✗ MCP gateway unreachable` | Rerun `scripts/start_mcp_gateway.sh`; confirm `docker mcp server ls` shows the three servers enabled. |
+| Helper script exits saying Docker isn't running | Launch Docker Desktop (or start the Docker daemon) and run the script again. |
 | `No podcasts were summarized` | Try different names, bump `--max-search-results`, or wait for DuckDuckGo to return fresher links. |
 | Docker says the MCP command is unknown | Install/enable the MCP extension: `docker extension install docker/mcp`. |
 
